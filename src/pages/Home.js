@@ -1,24 +1,27 @@
-import { useState, useEffect } from "react";
-import UserCard from "../components/UserCard";
+import { useEffect, useState } from "react";
+import NavBar from "../components/NavBar";
 
 function Home() {
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
 
-  useEffect(() =>{
+  useEffect(() => {
     fetch("http://localhost:4000/users")
-      .then(r => r.json())
-      .then(data => setUsers(data))
-      .catch(error => console.error(error));
+      .then((r) => r.json())
+      .then(setUsers)
+      .catch(console.error);
   }, []);
-  
-  const userList = users.map(user =>{
-    return <UserCard key={user.id} user={user}/>
-  });
+
+  const userList = users.map((user) => (
+    <div key={user.id}>
+      <h3>{user.name}</h3>
+      <a href={`/profile/${user.id}`}>View Profile</a>
+    </div>
+  ));
 
   return (
     <>
       <header>
-        {/* place NavBar here */}
+        <NavBar />
       </header>
       <main>
         <h1>Home!</h1>
@@ -26,6 +29,6 @@ function Home() {
       </main>
     </>
   );
-};
+}
 
 export default Home;
